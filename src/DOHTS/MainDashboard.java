@@ -53,7 +53,7 @@ public class MainDashboard{
 		MODULE1_PART3_PAGE3,
 		MODULE1_PART3_PAGE4,
 	}
-	
+
 	private JFrame frame;
 	private JPanel takequizPanel;
 	private JPanel homepagePanel;
@@ -67,6 +67,80 @@ public class MainDashboard{
 	private JPanel module1Part2TakeQuiz2;
 	private JPanel module1Part2TakeQuiz3;
 	private JPanel module1Part2TakeQuiz4;
+	private JPanel module1Part3TakeQuiz1;
+	private JPanel module1Part3TakeQuiz2;
+	private JPanel module1Part3TakeQuiz3;
+	private JPanel module1Part3TakeQuiz4;
+	
+	//variable that holds the current page
+	private Pages currentPage = null;
+	private Pages previousPage = null;
+	private Pages nextPage = null;
+	
+	private String getCorrectAnswer(Pages page){
+		switch(page){
+		case MODULE1_PART1_PAGE1:
+			return "FLOWER";
+		case MODULE1_PART1_PAGE2:
+			return "CABBAGE";
+		case MODULE1_PART1_PAGE3:
+			return "FISH";
+		case MODULE1_PART1_PAGE4:
+			return "CARROT";
+		case MODULE1_PART1_PAGE5:
+			return "PENCIL";
+		case MODULE1_PART2_PAGE1:
+			return "C";
+		case MODULE1_PART2_PAGE2:
+			return "B";
+		case MODULE1_PART2_PAGE3:
+			return "A";
+		case MODULE1_PART2_PAGE4:
+			return "B";
+		case MODULE1_PART3_PAGE1:
+			return "A";
+		case MODULE1_PART3_PAGE2:
+			return "A";
+		case MODULE1_PART3_PAGE3:
+			return "C";
+		case MODULE1_PART3_PAGE4:
+			return "A";
+		}
+		return null;
+	}
+	
+	
+	private Pages getCurrentPage(){
+		return currentPage;
+	}
+	
+	private void setCurrentPage(Pages page){
+		currentPage = page;
+	}
+	
+	private void printCurrentPage(){
+		System.out.println("Current page: " + getCurrentPage());
+	}
+	
+	private Pages getPreviousPage(){
+		return previousPage;
+	}
+	
+	private void setPreviousPage(Pages page){
+		previousPage = page;
+	}
+	
+	private void printPreviousPage(){
+		System.out.println("Previous page: " + getPreviousPage());
+	}
+	
+	private void setNextPage(Pages page){
+		nextPage = page;
+	}
+	
+	private void nextPage(){
+		changePage(nextPage);
+	}
 	
 	public static void showDashboard() {
 		EventQueue.invokeLater(new Runnable() {
@@ -74,7 +148,6 @@ public class MainDashboard{
 				try {
 					MainDashboard window = new MainDashboard();
 					window.frame.setVisible(true);	
-					//connect to database here
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -83,7 +156,7 @@ public class MainDashboard{
 		});
 	}
 	
-	/* Initialize User Interface */
+	//Initialize User Interface
 	public MainDashboard() {
 		initialize();
 	}
@@ -108,16 +181,27 @@ public class MainDashboard{
 		initialize_module1(frame);
 		
 		//module 1 part 1 sub pages
-		initialize_module1part1(frame);
-		initialize_module1part2(frame);
-		initialize_module1part3(frame);
-		initialize_module1part4(frame);
-		initialize_module1part5(frame);
-	
+		initialize_module1part1Takequiz1(frame);
+		initialize_module1part1Takequiz2(frame);
+		initialize_module1part1Takequiz3(frame);
+		initialize_module1part1Takequiz4(frame);
+		initialize_module1part1Takequiz5(frame);
+		
+		//module 1 part 2 sub pages
+		initialize_module1Part2Takequiz1(frame);
+		initialize_module1Part2Takequiz2(frame);
+		initialize_module1Part2Takequiz3(frame);
+		initialize_module1Part2Takequiz4(frame);
+		
+		//module 1 part 3 sub pages
+		initialize_module1Part3Takequiz1(frame);
+		initialize_module1Part3Takequiz2(frame);
+		initialize_module1Part3Takequiz3(frame);
+		initialize_module1Part3Takequiz4(frame);
+		
 		//set default page to homepage
 		changePage(Pages.HOMEPAGE);
 	}
-	
 	
 	
 	private void changeCursor(JPanel panel, MouseType mouseType){
@@ -139,6 +223,8 @@ public class MainDashboard{
 	
 	private void changePage(Pages page){
 		switch(page){
+			//------------- MENU PAGES ------------------//
+		
 			case HOMEPAGE:
 				homepagePanel.setVisible(true);
 				takequizPanel.setVisible(false);
@@ -148,6 +234,8 @@ public class MainDashboard{
 				module1Part1TakeQuiz3.setVisible(false);
 				module1Part1TakeQuiz4.setVisible(false);
 				module1Part1TakeQuiz5.setVisible(false);
+				setCurrentPage(Pages.HOMEPAGE);
+				printCurrentPage();
 				break;
 			case DISCOVER:
 				break;
@@ -160,6 +248,10 @@ public class MainDashboard{
 				module1Part1TakeQuiz3.setVisible(false);
 				module1Part1TakeQuiz4.setVisible(false);
 				module1Part1TakeQuiz5.setVisible(false);
+				setCurrentPage(Pages.TAKE_QUIZ);
+				setPreviousPage(Pages.HOMEPAGE);
+				printCurrentPage();
+				printPreviousPage();
 				break;
 			case ACHIEVEMENTS:
 				break;
@@ -172,8 +264,14 @@ public class MainDashboard{
 				module1Part1TakeQuiz3.setVisible(false);
 				module1Part1TakeQuiz4.setVisible(false);
 				module1Part1TakeQuiz5.setVisible(false);
+				setCurrentPage(Pages.TAKE_QUIZ_MOD1);
+				setPreviousPage(Pages.TAKE_QUIZ);
+				printCurrentPage();
+				printPreviousPage();
 				break;
-			//module 1
+			
+				
+			//-------------------  MODULE PAGES -----------------//
 			case MODULE1_PART1_PAGE1:
 				module1Part1TakeQuiz1.setVisible(true);
 				module1TakeQuizPanel.setVisible(false);
@@ -182,7 +280,20 @@ public class MainDashboard{
 				module1Part1TakeQuiz2.setVisible(false);
 				module1Part1TakeQuiz3.setVisible(false);
 				module1Part1TakeQuiz4.setVisible(false);
-				module1Part1TakeQuiz5.setVisible(false);				
+				module1Part1TakeQuiz5.setVisible(false);
+				module1Part2TakeQuiz1.setVisible(false);
+				module1Part2TakeQuiz2.setVisible(false);
+				module1Part2TakeQuiz3.setVisible(false);
+				module1Part2TakeQuiz4.setVisible(false);
+				module1Part3TakeQuiz1.setVisible(false);
+				module1Part3TakeQuiz2.setVisible(false);
+				module1Part3TakeQuiz3.setVisible(false);
+				module1Part3TakeQuiz4.setVisible(false);
+				setCurrentPage(Pages.MODULE1_PART1_PAGE1);
+				setPreviousPage(Pages.TAKE_QUIZ_MOD1);
+				setNextPage(Pages.MODULE1_PART1_PAGE2);
+				printCurrentPage();
+				printPreviousPage();
 				break;
 			case MODULE1_PART1_PAGE2:
 				module1Part1TakeQuiz2.setVisible(true);
@@ -193,6 +304,19 @@ public class MainDashboard{
 				module1Part1TakeQuiz3.setVisible(false);
 				module1Part1TakeQuiz4.setVisible(false);
 				module1Part1TakeQuiz5.setVisible(false);
+				module1Part2TakeQuiz1.setVisible(false);
+				module1Part2TakeQuiz2.setVisible(false);
+				module1Part2TakeQuiz3.setVisible(false);
+				module1Part2TakeQuiz4.setVisible(false);
+				module1Part3TakeQuiz1.setVisible(false);
+				module1Part3TakeQuiz2.setVisible(false);
+				module1Part3TakeQuiz3.setVisible(false);
+				module1Part3TakeQuiz4.setVisible(false);
+				setCurrentPage(Pages.MODULE1_PART1_PAGE2);
+				setPreviousPage(Pages.MODULE1_PART1_PAGE1);
+				setNextPage(Pages.MODULE1_PART1_PAGE3);
+				printCurrentPage();
+				printPreviousPage();
 				break;
 			case MODULE1_PART1_PAGE3:
 				module1Part1TakeQuiz3.setVisible(true);
@@ -203,6 +327,19 @@ public class MainDashboard{
 				module1Part1TakeQuiz2.setVisible(false);
 				module1Part1TakeQuiz4.setVisible(false);
 				module1Part1TakeQuiz5.setVisible(false);
+				module1Part2TakeQuiz1.setVisible(false);
+				module1Part2TakeQuiz2.setVisible(false);
+				module1Part2TakeQuiz3.setVisible(false);
+				module1Part2TakeQuiz4.setVisible(false);
+				module1Part3TakeQuiz1.setVisible(false);
+				module1Part3TakeQuiz2.setVisible(false);
+				module1Part3TakeQuiz3.setVisible(false);
+				module1Part3TakeQuiz4.setVisible(false);
+				setCurrentPage(Pages.MODULE1_PART1_PAGE3);
+				setPreviousPage(Pages.MODULE1_PART1_PAGE2);
+				setNextPage(Pages.MODULE1_PART1_PAGE4);
+				printCurrentPage();
+				printPreviousPage();
 				break;
 			case MODULE1_PART1_PAGE4:
 				module1Part1TakeQuiz4.setVisible(true);
@@ -213,6 +350,19 @@ public class MainDashboard{
 				module1Part1TakeQuiz2.setVisible(false);
 				module1Part1TakeQuiz3.setVisible(false);
 				module1Part1TakeQuiz5.setVisible(false);
+				module1Part2TakeQuiz1.setVisible(false);
+				module1Part2TakeQuiz2.setVisible(false);
+				module1Part2TakeQuiz3.setVisible(false);
+				module1Part2TakeQuiz4.setVisible(false);
+				module1Part3TakeQuiz1.setVisible(false);
+				module1Part3TakeQuiz2.setVisible(false);
+				module1Part3TakeQuiz3.setVisible(false);
+				module1Part3TakeQuiz4.setVisible(false);
+				setCurrentPage(Pages.MODULE1_PART1_PAGE4);
+				setPreviousPage(Pages.MODULE1_PART1_PAGE3);
+				setNextPage(Pages.MODULE1_PART1_PAGE5);
+				printCurrentPage();
+				printPreviousPage();
 				break;
 			case MODULE1_PART1_PAGE5:
 				module1Part1TakeQuiz5.setVisible(true);
@@ -223,6 +373,205 @@ public class MainDashboard{
 				module1Part1TakeQuiz2.setVisible(false);
 				module1Part1TakeQuiz3.setVisible(false);
 				module1Part1TakeQuiz4.setVisible(false);
+				module1Part2TakeQuiz1.setVisible(false);
+				module1Part2TakeQuiz2.setVisible(false);
+				module1Part2TakeQuiz3.setVisible(false);
+				module1Part2TakeQuiz4.setVisible(false);
+				module1Part3TakeQuiz1.setVisible(false);
+				module1Part3TakeQuiz2.setVisible(false);
+				module1Part3TakeQuiz3.setVisible(false);
+				module1Part3TakeQuiz4.setVisible(false);
+				setCurrentPage(Pages.MODULE1_PART1_PAGE5);
+				setPreviousPage(Pages.MODULE1_PART1_PAGE4);
+				setNextPage(Pages.TAKE_QUIZ_MOD1);
+				printCurrentPage();
+				printPreviousPage();
+				break;
+				
+			case MODULE1_PART2_PAGE1:
+				module1Part2TakeQuiz1.setVisible(true);
+				module1TakeQuizPanel.setVisible(false);
+				takequizPanel.setVisible(false);
+				homepagePanel.setVisible(false);
+				module1Part1TakeQuiz1.setVisible(false);
+				module1Part1TakeQuiz2.setVisible(false);
+				module1Part1TakeQuiz3.setVisible(false);
+				module1Part1TakeQuiz4.setVisible(false);
+				module1Part1TakeQuiz5.setVisible(false);
+				module1Part2TakeQuiz2.setVisible(false);
+				module1Part2TakeQuiz3.setVisible(false);
+				module1Part2TakeQuiz4.setVisible(false);
+				module1Part3TakeQuiz1.setVisible(false);
+				module1Part3TakeQuiz2.setVisible(false);
+				module1Part3TakeQuiz3.setVisible(false);
+				module1Part3TakeQuiz4.setVisible(false);
+				setCurrentPage(Pages.MODULE1_PART2_PAGE1);
+				setPreviousPage(Pages.TAKE_QUIZ_MOD1);
+				setNextPage(Pages.MODULE1_PART2_PAGE2);
+				printCurrentPage();
+				printPreviousPage();
+				break;
+			case MODULE1_PART2_PAGE2:
+				module1Part2TakeQuiz2.setVisible(true);
+				module1TakeQuizPanel.setVisible(false);
+				takequizPanel.setVisible(false);
+				homepagePanel.setVisible(false);
+				module1Part1TakeQuiz1.setVisible(false);
+				module1Part1TakeQuiz2.setVisible(false);
+				module1Part1TakeQuiz3.setVisible(false);
+				module1Part1TakeQuiz4.setVisible(false);
+				module1Part1TakeQuiz5.setVisible(false);
+				module1Part2TakeQuiz1.setVisible(false);
+				module1Part2TakeQuiz3.setVisible(false);
+				module1Part2TakeQuiz4.setVisible(false);
+				module1Part3TakeQuiz1.setVisible(false);
+				module1Part3TakeQuiz2.setVisible(false);
+				module1Part3TakeQuiz3.setVisible(false);
+				module1Part3TakeQuiz4.setVisible(false);
+				setCurrentPage(Pages.MODULE1_PART2_PAGE2);
+				setPreviousPage(Pages.MODULE1_PART2_PAGE1);
+				setNextPage(Pages.MODULE1_PART2_PAGE3);
+				printCurrentPage();
+				printPreviousPage();
+				break;
+			case MODULE1_PART2_PAGE3:
+				module1Part2TakeQuiz3.setVisible(true);
+				module1TakeQuizPanel.setVisible(false);
+				takequizPanel.setVisible(false);
+				homepagePanel.setVisible(false);
+				module1Part1TakeQuiz1.setVisible(false);
+				module1Part1TakeQuiz2.setVisible(false);
+				module1Part1TakeQuiz3.setVisible(false);
+				module1Part1TakeQuiz4.setVisible(false);
+				module1Part1TakeQuiz5.setVisible(false);
+				module1Part2TakeQuiz1.setVisible(false);
+				module1Part2TakeQuiz2.setVisible(false);
+				module1Part2TakeQuiz4.setVisible(false);
+				module1Part3TakeQuiz1.setVisible(false);
+				module1Part3TakeQuiz2.setVisible(false);
+				module1Part3TakeQuiz3.setVisible(false);
+				module1Part3TakeQuiz4.setVisible(false);
+				setCurrentPage(Pages.MODULE1_PART2_PAGE3);
+				setPreviousPage(Pages.MODULE1_PART2_PAGE2);
+				setNextPage(Pages.MODULE1_PART2_PAGE4);
+				printCurrentPage();
+				printPreviousPage();
+				break;
+			case MODULE1_PART2_PAGE4:
+				module1Part2TakeQuiz4.setVisible(true);
+				module1TakeQuizPanel.setVisible(false);
+				takequizPanel.setVisible(false);
+				homepagePanel.setVisible(false);
+				module1Part1TakeQuiz1.setVisible(false);
+				module1Part1TakeQuiz2.setVisible(false);
+				module1Part1TakeQuiz3.setVisible(false);
+				module1Part1TakeQuiz4.setVisible(false);
+				module1Part1TakeQuiz5.setVisible(false);
+				module1Part2TakeQuiz1.setVisible(false);
+				module1Part2TakeQuiz2.setVisible(false);
+				module1Part2TakeQuiz3.setVisible(false);
+				module1Part3TakeQuiz1.setVisible(false);
+				module1Part3TakeQuiz2.setVisible(false);
+				module1Part3TakeQuiz3.setVisible(false);
+				module1Part3TakeQuiz4.setVisible(false);
+				setCurrentPage(Pages.MODULE1_PART2_PAGE4);
+				setPreviousPage(Pages.MODULE1_PART2_PAGE3);
+				setNextPage(Pages.TAKE_QUIZ_MOD1);
+				printCurrentPage();
+				printPreviousPage();
+				break;
+				
+			case MODULE1_PART3_PAGE1:
+				module1Part3TakeQuiz1.setVisible(true);
+				module1TakeQuizPanel.setVisible(false);
+				takequizPanel.setVisible(false);
+				homepagePanel.setVisible(false);
+				module1Part1TakeQuiz1.setVisible(false);
+				module1Part1TakeQuiz2.setVisible(false);
+				module1Part1TakeQuiz3.setVisible(false);
+				module1Part1TakeQuiz4.setVisible(false);
+				module1Part1TakeQuiz5.setVisible(false);
+				module1Part2TakeQuiz1.setVisible(false);
+				module1Part2TakeQuiz2.setVisible(false);
+				module1Part2TakeQuiz3.setVisible(false);
+				module1Part2TakeQuiz4.setVisible(false);
+				module1Part3TakeQuiz2.setVisible(false);
+				module1Part3TakeQuiz3.setVisible(false);
+				module1Part3TakeQuiz4.setVisible(false);
+				setCurrentPage(Pages.MODULE1_PART3_PAGE1);
+				setPreviousPage(Pages.TAKE_QUIZ_MOD1);
+				setNextPage(Pages.MODULE1_PART3_PAGE2);
+				printCurrentPage();
+				printPreviousPage();
+				break;
+			case MODULE1_PART3_PAGE2:
+				module1Part3TakeQuiz2.setVisible(true);
+				module1TakeQuizPanel.setVisible(false);
+				takequizPanel.setVisible(false);
+				homepagePanel.setVisible(false);
+				module1Part1TakeQuiz1.setVisible(false);
+				module1Part1TakeQuiz2.setVisible(false);
+				module1Part1TakeQuiz3.setVisible(false);
+				module1Part1TakeQuiz4.setVisible(false);
+				module1Part1TakeQuiz5.setVisible(false);
+				module1Part2TakeQuiz1.setVisible(false);
+				module1Part2TakeQuiz2.setVisible(false);
+				module1Part2TakeQuiz3.setVisible(false);
+				module1Part2TakeQuiz4.setVisible(false);
+				module1Part3TakeQuiz1.setVisible(false);
+				module1Part3TakeQuiz3.setVisible(false);
+				module1Part3TakeQuiz4.setVisible(false);
+				setCurrentPage(Pages.MODULE1_PART3_PAGE2);
+				setPreviousPage(Pages.MODULE1_PART3_PAGE1);
+				setNextPage(Pages.MODULE1_PART3_PAGE3);
+				printCurrentPage();
+				printPreviousPage();
+				break;
+			case MODULE1_PART3_PAGE3:
+				module1Part3TakeQuiz3.setVisible(true);
+				module1TakeQuizPanel.setVisible(false);
+				takequizPanel.setVisible(false);
+				homepagePanel.setVisible(false);
+				module1Part1TakeQuiz1.setVisible(false);
+				module1Part1TakeQuiz2.setVisible(false);
+				module1Part1TakeQuiz3.setVisible(false);
+				module1Part1TakeQuiz4.setVisible(false);
+				module1Part1TakeQuiz5.setVisible(false);
+				module1Part2TakeQuiz1.setVisible(false);
+				module1Part2TakeQuiz2.setVisible(false);
+				module1Part2TakeQuiz3.setVisible(false);
+				module1Part2TakeQuiz4.setVisible(false);
+				module1Part3TakeQuiz1.setVisible(false);
+				module1Part3TakeQuiz2.setVisible(false);
+				module1Part3TakeQuiz4.setVisible(false);
+				setCurrentPage(Pages.MODULE1_PART3_PAGE3);
+				setPreviousPage(Pages.MODULE1_PART3_PAGE2);
+				setNextPage(Pages.MODULE1_PART3_PAGE4);
+				printCurrentPage();
+				printPreviousPage();
+				break;
+			case MODULE1_PART3_PAGE4:
+				module1Part3TakeQuiz4.setVisible(false);
+				module1TakeQuizPanel.setVisible(false);
+				takequizPanel.setVisible(false);
+				homepagePanel.setVisible(false);
+				module1Part1TakeQuiz1.setVisible(false);
+				module1Part1TakeQuiz2.setVisible(false);
+				module1Part1TakeQuiz3.setVisible(false);
+				module1Part1TakeQuiz4.setVisible(false);
+				module1Part1TakeQuiz5.setVisible(false);
+				module1Part2TakeQuiz1.setVisible(false);
+				module1Part2TakeQuiz2.setVisible(false);
+				module1Part2TakeQuiz3.setVisible(false);
+				module1Part2TakeQuiz4.setVisible(false);
+				module1Part3TakeQuiz1.setVisible(false);
+				module1Part3TakeQuiz2.setVisible(false);
+				module1Part3TakeQuiz3.setVisible(false);
+				setCurrentPage(Pages.MODULE1_PART3_PAGE4);
+				setPreviousPage(Pages.MODULE1_PART3_PAGE3);
+				setNextPage(Pages.TAKE_QUIZ_MOD1);
+				printCurrentPage();
+				printPreviousPage();
 				break;
 			default:
 				break;
@@ -269,7 +618,6 @@ public class MainDashboard{
 		pencilAnim_homepage.setIcon(new ImageIcon(MainDashboard.class.getResource("/assets/img/active_pencil.gif")));
 		pencilAnim_homepage.setBounds(28, 321, 108, 135);
 		homepagePanel.add(pencilAnim_homepage);
-		/*------------- ADD ANIMATIONS TO HOME PAGE PANEL END -------------*/
 		
 		
 		/*------------- ADD CONTROL BUTTONS TO HOME PAGE PANEL START -------------*/
@@ -288,8 +636,6 @@ public class MainDashboard{
 		navForwardBtn_homepage.setIcon(new ImageIcon(MainDashboard.class.getResource("/assets/img/control_forward_passive_v2.png")));
 		navForwardBtn_homepage.setBounds(222, 11, 92, 96);
 		homepagePanel.add(navForwardBtn_homepage);
-		
-		/*------------- ADD CONTROL BUTTONS TO HOME PAGE PANEL END -------------*/
 		
 		
 		/*------------- CONTROL BUTTONS EVENT LISTENER START ---------------------*/
@@ -337,8 +683,6 @@ public class MainDashboard{
 			}
 		});
 		
-		/*------------- CONTROL BUTTONS EVENT LISTENER END ---------------------*/
-		
 		
 		/*------------- ADD NAVIGATION BUTTONS TO HOME PAGE PANEL START -------------*/
 		navDiscoverBtn_homepage.setIcon(new ImageIcon(MainDashboard.class.getResource("/assets/img/nav_discover_passive_v2.png")));
@@ -352,7 +696,6 @@ public class MainDashboard{
 		navAchievemtentsBtn_homepage.setIcon(new ImageIcon(MainDashboard.class.getResource("/assets/img/nav_achievements_passive_v2.png")));
 		navAchievemtentsBtn_homepage.setBounds(18, 479, 381, 166);
 		homepagePanel.add(navAchievemtentsBtn_homepage);
-		/*------------- ADD NAVIGATION BUTTONS TO HOME PAGE PANEL END -------------*/
 		
 		
 		/*------------- NAVIGATION BUTTONS EVENT LISTENER START ---------------------*/
@@ -399,7 +742,6 @@ public class MainDashboard{
 				changeCursor(homepagePanel,MouseType.NORMAL);
 			}
 		});
-		/*------------- NAVIGATION BUTTONS EVENT LISTENER END ---------------------*/
 		
 		
 		/*------------- ADD OTHER COMPONENTS TO HOME PAGE PANEL START -------------*/
@@ -414,7 +756,6 @@ public class MainDashboard{
 		footerBar_homepage.setIcon(new ImageIcon(MainDashboard.class.getResource("/assets/img/footer_bar_v2.png")));
 		footerBar_homepage.setBounds(0, 670, 1280, 21);
 		homepagePanel.add(footerBar_homepage);
-		/*------------- ADD OTHER COMPONENTS TO HOME PAGE PANEL START -------------*/
 		
 	}
 	
@@ -747,7 +1088,7 @@ public class MainDashboard{
 		module1TakeQuizPanel.add(background_Module1Front);
 	}
 	
-	private void initialize_module1part1(JFrame frame){
+	private void initialize_module1part1Takequiz1(JFrame frame){
 		
 		module1Part1TakeQuiz1 = new JPanel();
 		module1Part1TakeQuiz1.setLayout(null);
@@ -832,8 +1173,7 @@ public class MainDashboard{
 				
 	}
 	
-
-	private void initialize_module1part2(JFrame frame){
+	private void initialize_module1part1Takequiz2(JFrame frame){
 		module1Part1TakeQuiz2 = new JPanel();
 		module1Part1TakeQuiz2.setLayout(null);
 		module1Part1TakeQuiz2.setForeground(Color.WHITE);
@@ -916,7 +1256,7 @@ public class MainDashboard{
 		module1Part1TakeQuiz2.add(label_22);
 	}
 	
-	private void initialize_module1part3(JFrame frame){
+	private void initialize_module1part1Takequiz3(JFrame frame){
 		module1Part1TakeQuiz3 = new JPanel();
 		module1Part1TakeQuiz3.setLayout(null);
 		module1Part1TakeQuiz3.setForeground(Color.WHITE);
@@ -999,7 +1339,7 @@ public class MainDashboard{
 		module1Part1TakeQuiz3.add(label_37);
 	}
 	
-	private void initialize_module1part4(JFrame frame){
+	private void initialize_module1part1Takequiz4(JFrame frame){
 		module1Part1TakeQuiz4 = new JPanel();
 		module1Part1TakeQuiz4.setLayout(null);
 		module1Part1TakeQuiz4.setForeground(Color.WHITE);
@@ -1082,7 +1422,7 @@ public class MainDashboard{
 		module1Part1TakeQuiz4.add(label_52);
 	}
 	
-	private void initialize_module1part5(JFrame frame){
+	private void initialize_module1part1Takequiz5(JFrame frame){
 		module1Part1TakeQuiz5 = new JPanel();
 		module1Part1TakeQuiz5.setLayout(null);
 		module1Part1TakeQuiz5.setForeground(Color.WHITE);
@@ -1164,6 +1504,9 @@ public class MainDashboard{
 		label_67.setBounds(0, 0, 1280, 691);
 		module1Part1TakeQuiz5.add(label_67);
 		
+	}
+	
+	private void initialize_module1Part2Takequiz1(JFrame frame){
 		module1Part2TakeQuiz1 = new JPanel();
 		module1Part2TakeQuiz1.setLayout(null);
 		module1Part2TakeQuiz1.setForeground(Color.WHITE);
@@ -1229,8 +1572,10 @@ public class MainDashboard{
 		label_14.setIcon(new ImageIcon(MainDashboard.class.getResource("/assets/img/grey_background.png")));
 		label_14.setBounds(0, 0, 1280, 691);
 		module1Part2TakeQuiz1.add(label_14);
-		
-		JPanel module1Part2TakeQuiz2 = new JPanel();
+	}
+
+	private void initialize_module1Part2Takequiz2(JFrame frame){
+		module1Part2TakeQuiz2 = new JPanel();
 		module1Part2TakeQuiz2.setLayout(null);
 		module1Part2TakeQuiz2.setForeground(Color.WHITE);
 		module1Part2TakeQuiz2.setBackground(Color.WHITE);
@@ -1295,8 +1640,10 @@ public class MainDashboard{
 		label_21.setIcon(new ImageIcon(MainDashboard.class.getResource("/assets/img/grey_background.png")));
 		label_21.setBounds(0, 0, 1280, 691);
 		module1Part2TakeQuiz2.add(label_21);
-		
-		JPanel module1Part2TakeQuiz3 = new JPanel();
+	}
+	
+	private void initialize_module1Part2Takequiz3(JFrame frame){
+		module1Part2TakeQuiz3 = new JPanel();
 		module1Part2TakeQuiz3.setLayout(null);
 		module1Part2TakeQuiz3.setForeground(Color.WHITE);
 		module1Part2TakeQuiz3.setBackground(Color.WHITE);
@@ -1361,8 +1708,10 @@ public class MainDashboard{
 		label_33.setIcon(new ImageIcon(MainDashboard.class.getResource("/assets/img/grey_background.png")));
 		label_33.setBounds(0, 0, 1280, 691);
 		module1Part2TakeQuiz3.add(label_33);
-		
-		JPanel module1Part2TakeQuiz4 = new JPanel();
+	}
+	
+	private void initialize_module1Part2Takequiz4(JFrame frame){
+		module1Part2TakeQuiz4 = new JPanel();
 		module1Part2TakeQuiz4.setLayout(null);
 		module1Part2TakeQuiz4.setForeground(Color.WHITE);
 		module1Part2TakeQuiz4.setBackground(Color.WHITE);
@@ -1427,8 +1776,10 @@ public class MainDashboard{
 		label_45.setIcon(new ImageIcon(MainDashboard.class.getResource("/assets/img/grey_background.png")));
 		label_45.setBounds(0, 0, 1280, 691);
 		module1Part2TakeQuiz4.add(label_45);
-		
-		JPanel module1Part3TakeQuiz1 = new JPanel();
+	}
+	
+	private void initialize_module1Part3Takequiz1(JFrame frame){
+		module1Part3TakeQuiz1 = new JPanel();
 		module1Part3TakeQuiz1.setLayout(null);
 		module1Part3TakeQuiz1.setForeground(Color.WHITE);
 		module1Part3TakeQuiz1.setBackground(Color.WHITE);
@@ -1488,8 +1839,11 @@ public class MainDashboard{
 		label_72.setIcon(new ImageIcon(MainDashboard.class.getResource("/assets/img/grey_background.png")));
 		label_72.setBounds(0, 0, 1280, 691);
 		module1Part3TakeQuiz1.add(label_72);
-		
-		JPanel module1Part3TakeQuiz2 = new JPanel();
+	}
+	
+	private void initialize_module1Part3Takequiz2(JFrame frame){
+
+		module1Part3TakeQuiz2 = new JPanel();
 		module1Part3TakeQuiz2.setLayout(null);
 		module1Part3TakeQuiz2.setForeground(Color.WHITE);
 		module1Part3TakeQuiz2.setBackground(Color.WHITE);
@@ -1549,8 +1903,11 @@ public class MainDashboard{
 		label_81.setIcon(new ImageIcon(MainDashboard.class.getResource("/assets/img/grey_background.png")));
 		label_81.setBounds(0, 0, 1280, 691);
 		module1Part3TakeQuiz2.add(label_81);
-		
-		JPanel module1Part3TakeQuiz3 = new JPanel();
+	}
+	
+	private void initialize_module1Part3Takequiz3(JFrame frame){
+
+		module1Part3TakeQuiz3 = new JPanel();
 		module1Part3TakeQuiz3.setLayout(null);
 		module1Part3TakeQuiz3.setForeground(Color.WHITE);
 		module1Part3TakeQuiz3.setBackground(Color.WHITE);
@@ -1610,8 +1967,10 @@ public class MainDashboard{
 		label_92.setIcon(new ImageIcon(MainDashboard.class.getResource("/assets/img/grey_background.png")));
 		label_92.setBounds(0, 0, 1280, 691);
 		module1Part3TakeQuiz3.add(label_92);
-		
-		JPanel module1Part3TakeQuiz4 = new JPanel();
+	}
+	
+	private void initialize_module1Part3Takequiz4(JFrame frame){
+		module1Part3TakeQuiz4 = new JPanel();
 		module1Part3TakeQuiz4.setLayout(null);
 		module1Part3TakeQuiz4.setForeground(Color.WHITE);
 		module1Part3TakeQuiz4.setBackground(Color.WHITE);
@@ -1672,4 +2031,5 @@ public class MainDashboard{
 		label_103.setBounds(0, 0, 1280, 691);
 		module1Part3TakeQuiz4.add(label_103);
 	}
+
 }
